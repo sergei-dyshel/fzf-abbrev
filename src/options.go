@@ -7,7 +7,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/junegunn/fzf/src/curses"
+	"github.com/sergei-dyshel/fzf/src/curses"
 
 	"github.com/junegunn/go-shellwords"
 )

@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/junegunn/fzf/src/algo"
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf/src/algo"
+	"github.com/sergei-dyshel/fzf/src/util"
 )
 
 // fuzzy
@@ -127,7 +127,7 @@ func BuildPattern(fuzzy bool, extended bool, caseMode Case, forward bool,
 		delimiter:     delimiter,
 		procFun:       make(map[termType]func(bool, bool, []rune, []rune) algo.Result)}
 
-	ptr.procFun[termFuzzy] = algo.FuzzyMatch
+	ptr.procFun[termFuzzy] = algo.AbbrevFuzzyMatch
 	ptr.procFun[termEqual] = algo.EqualMatch
 	ptr.procFun[termExact] = algo.ExactMatchNaive
 	ptr.procFun[termPrefix] = algo.PrefixMatch

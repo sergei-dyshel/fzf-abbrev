@@ -3,7 +3,7 @@ package fzf
 import (
 	"time"
 
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf/src/util"
 )
 
 const (

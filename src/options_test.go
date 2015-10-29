@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/junegunn/fzf/src/curses"
+	"github.com/sergei-dyshel/fzf/src/curses"
 )
 
 func TestDelimiterRegex(t *testing.T) {

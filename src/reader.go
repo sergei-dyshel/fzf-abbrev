@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf/src/util"
 )
 
 // Reader reads from command or standard input

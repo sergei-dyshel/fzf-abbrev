@@ -4,7 +4,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf/src/util"
 )
 
 /*
@@ -185,6 +185,79 @@ func FuzzyMatch(caseSensitive bool, forward bool, runes []rune, pattern []rune) 
 			evaluateBonus(caseSensitive, runes, pattern, sidx, eidx)}
 	}
 	return Result{-1, -1, 0}
+}
+
+func IsLower(ch rune) bool {
+	return ch >= 'a' && ch <= 'z'
+}
+
+func IsUpper(ch rune) bool {
+	return ch >= 'A' && ch <= 'Z'
+}
+
+func IsLetter(ch rune) bool {
+	return IsLower(ch) || IsUpper(ch)
+}
+
+func IsDigit(ch rune) bool {
+	return ch >= '0' && ch <= '9'
+}
+
+func IsLetterDigit(ch rune) bool {
+	return IsLetter(ch) || IsDigit(ch)
+}
+
+func ToLower(char rune) rune {
+	if char >= 'A' && char <= 'Z' {
+		return char + 32
+	}
+	return char
+}
+
+func AbbrevFuzzyMatchHelper(runes []rune, r int, pat []rune, p int) (int, int) {
+	if p == len(pat) {
+		return r, r
+	}
+	if r == len(runes) {
+		return -1, -1
+	}
+
+	p_ch := ToLower(pat[p])
+	if ToLower(runes[r]) == p_ch {
+		_, end := AbbrevFuzzyMatchHelper(runes, r + 1, pat, p + 1)
+		if end >= 0 {
+			return p, end
+		}
+	}
+	for i := r + 1; i < len(runes); i++ {
+		curr := runes[i]
+		prev := runes[i - 1]
+		if ToLower(curr) != ToLower(p_ch) {
+			continue
+		}
+		if (IsUpper(curr) && !IsUpper(prev)) ||
+				(IsLower(curr) && !IsLetter(prev)) ||
+				(IsDigit(curr) && !IsDigit(prev)) ||
+				(!IsLetterDigit(curr) && curr != prev) {
+			_, end := AbbrevFuzzyMatchHelper(runes, i + 1, pat, p + 1)
+			if end >= 0 {
+				return i, end
+			}
+		}
+	}
+	return -1, -1
+}
+
+func AbbrevFuzzyMatch(caseSensitive bool, forward bool, runes []rune, pattern []rune) Result {
+	if len(pattern) == 0 {
+		return Result{0, 0, 0}
+	}
+	start, end := AbbrevFuzzyMatchHelper(runes, 0, pattern, 0)
+	if (start == -1 && end == -1) {
+		return Result{-1, -1, 0}
+	}
+	return Result{int32(start), int32(end),
+		evaluateBonus(caseSensitive, runes, pattern, start, end)}
 }
 
 // ExactMatchNaive is a basic string searching algorithm that handles case
