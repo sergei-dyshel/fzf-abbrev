@@ -22,80 +22,73 @@ func runeAt(runes []rune, index int, max int, forward bool) rune {
 	return runes[max-index-1]
 }
 
+func IsLower(ch rune) bool {
+	return ch >= 'a' && ch <= 'z'
+}
+
+func IsUpper(ch rune) bool {
+	return ch >= 'A' && ch <= 'Z'
+}
+
+func IsLetter(ch rune) bool {
+	return IsLower(ch) || IsUpper(ch)
+}
+
+func IsDigit(ch rune) bool {
+	return ch >= '0' && ch <= '9'
+}
+
+func IsLetterDigit(ch rune) bool {
+	return IsLetter(ch) || IsDigit(ch)
+}
+
+func ToLower(char rune) rune {
+	if char >= 'A' && char <= 'Z' {
+		return char + 32
+	}
+	return char
+}
+
+func FuzzyMatchHelper(runes []rune, r int, pat []rune, p int) (int, int) {
+	if p == len(pat) {
+		return r, r
+	}
+	if r == len(runes) {
+		return -1, -1
+	}
+
+	p_ch := ToLower(pat[p])
+	if ToLower(runes[r]) == p_ch {
+		_, end := FuzzyMatchHelper(runes, r + 1, pat, p + 1)
+		if end >= 0 {
+			return p, end
+		}
+	}
+	for i := r + 1; i < len(runes); i++ {
+		curr := ToLower(runes[i])
+		prev := ToLower(runes[i - 1])
+		if curr != p_ch {
+			continue
+		}
+		if (IsUpper(curr) && !IsUpper(prev)) ||
+				(IsLower(curr) && !IsLetter(prev)) ||
+				(IsDigit(curr) && !IsDigit(prev)) ||
+				(!IsLetterDigit(curr) && curr != prev) {
+			_, end := FuzzyMatchHelper(runes, i + 1, pat, p + 1)
+			if end >= 0 {
+				return i, end
+			}
+		}
+	}
+	return -1, -1
+}
+
 // FuzzyMatch performs fuzzy-match
 func FuzzyMatch(caseSensitive bool, forward bool, runes []rune, pattern []rune) (int, int) {
 	if len(pattern) == 0 {
 		return 0, 0
 	}
-
-	// 0. (FIXME) How to find the shortest match?
-	//    a_____b__c__abc
-	//    ^^^^^^^^^^  ^^^
-	// 1. forward scan (abc)
-	//   *-----*-----*>
-	//   a_____b___abc__
-	// 2. reverse scan (cba)
-	//   a_____b___abc__
-	//            <***
-	pidx := 0
-	sidx := -1
-	eidx := -1
-
-	lenRunes := len(runes)
-	lenPattern := len(pattern)
-
-	for index := range runes {
-		char := runeAt(runes, index, lenRunes, forward)
-		// This is considerably faster than blindly applying strings.ToLower to the
-		// whole string
-		if !caseSensitive {
-			// Partially inlining `unicode.ToLower`. Ugly, but makes a noticeable
-			// difference in CPU cost. (Measured on Go 1.4.1. Also note that the Go
-			// compiler as of now does not inline non-leaf functions.)
-			if char >= 'A' && char <= 'Z' {
-				char += 32
-			} else if char > unicode.MaxASCII {
-				char = unicode.To(unicode.LowerCase, char)
-			}
-		}
-		pchar := runeAt(pattern, pidx, lenPattern, forward)
-		if char == pchar {
-			if sidx < 0 {
-				sidx = index
-			}
-			if pidx++; pidx == lenPattern {
-				eidx = index + 1
-				break
-			}
-		}
-	}
-
-	if sidx >= 0 && eidx >= 0 {
-		pidx--
-		for index := eidx - 1; index >= sidx; index-- {
-			char := runeAt(runes, index, lenRunes, forward)
-			if !caseSensitive {
-				if char >= 'A' && char <= 'Z' {
-					char += 32
-				} else if char > unicode.MaxASCII {
-					char = unicode.To(unicode.LowerCase, char)
-				}
-			}
-
-			pchar := runeAt(pattern, pidx, lenPattern, forward)
-			if char == pchar {
-				if pidx--; pidx < 0 {
-					sidx = index
-					break
-				}
-			}
-		}
-		if forward {
-			return sidx, eidx
-		}
-		return lenRunes - eidx, lenRunes - sidx
-	}
-	return -1, -1
+	return FuzzyMatchHelper(runes, 0, pattern, 0)
 }
 
 // ExactMatchNaive is a basic string searching algorithm that handles case
