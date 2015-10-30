@@ -67,19 +67,19 @@ docker-centos:
 
 arch: docker-arch
 	docker run -i -t -v $(GOPATH):/go junegunn/$@-sandbox \
-		sh -c 'cd /go/src/github.com/junegunn/fzf/src; /bin/bash'
+		sh -c 'cd /go/src/github.com/sergei-dyshel/fzf/src; /bin/bash'
 
 ubuntu: docker-ubuntu
 	docker run -i -t -v $(GOPATH):/go junegunn/$@-sandbox \
-		sh -c 'cd /go/src/github.com/junegunn/fzf/src; /bin/bash'
+		sh -c 'cd /go/src/github.com/sergei-dyshel/fzf/src; /bin/bash'
 
 centos: docker-centos
 	docker run -i -t -v $(GOPATH):/go junegunn/$@-sandbox \
-		sh -c 'cd /go/src/github.com/junegunn/fzf/src; /bin/bash'
+		sh -c 'cd /go/src/github.com/sergei-dyshel/fzf/src; /bin/bash'
 
 linux: docker-centos
 	docker run -i -t -v $(GOPATH):/go junegunn/centos-sandbox \
-		/bin/bash -ci 'cd /go/src/github.com/junegunn/fzf/src; make TAGS=static'
+		/bin/bash -ci 'cd /go/src/github.com/sergei-dyshel/fzf/src; make TAGS=static'
 
 .PHONY: all build release test install uninstall clean docker \
 	linux arch ubuntu centos docker-arch docker-ubuntu docker-centos

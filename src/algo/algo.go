@@ -4,7 +4,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf/src/util"
 )
 
 /*
@@ -65,9 +65,9 @@ func FuzzyMatchHelper(runes []rune, r int, pat []rune, p int) (int, int) {
 		}
 	}
 	for i := r + 1; i < len(runes); i++ {
-		curr := ToLower(runes[i])
-		prev := ToLower(runes[i - 1])
-		if curr != p_ch {
+		curr := runes[i]
+		prev := runes[i - 1]
+		if ToLower(curr) != ToLower(p_ch) {
 			continue
 		}
 		if (IsUpper(curr) && !IsUpper(prev)) ||

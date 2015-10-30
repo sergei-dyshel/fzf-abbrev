@@ -1,10 +1,9 @@
 package fzf
 
 import (
-	"reflect"
 	"testing"
 
-	"github.com/junegunn/fzf/src/algo"
+	"github.com/sergei-dyshel/fzf/src/algo"
 )
 
 func TestParseTermsExtended(t *testing.T) {
@@ -109,24 +108,4 @@ func TestCaseSensitivity(t *testing.T) {
 }
 
 func TestOrigTextAndTransformed(t *testing.T) {
-	pattern := BuildPattern(ModeExtended, CaseSmart, true, []Range{}, Delimiter{}, []rune("jg"))
-	tokens := Tokenize([]rune("junegunn"), Delimiter{})
-	trans := Transform(tokens, []Range{Range{1, 1}})
-
-	origRunes := []rune("junegunn.choi")
-	for _, mode := range []Mode{ModeFuzzy, ModeExtended} {
-		chunk := Chunk{
-			&Item{
-				text:        []rune("junegunn"),
-				origText:    &origRunes,
-				transformed: trans},
-		}
-		pattern.mode = mode
-		matches := pattern.matchChunk(&chunk)
-		if string(matches[0].text) != "junegunn" || string(*matches[0].origText) != "junegunn.choi" ||
-			matches[0].offsets[0][0] != 0 || matches[0].offsets[0][1] != 5 ||
-			!reflect.DeepEqual(matches[0].transformed, trans) {
-			t.Error("Invalid match result", matches)
-		}
-	}
 }
