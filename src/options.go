@@ -8,10 +8,9 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/junegunn/fzf/src/algo"
-	"github.com/junegunn/fzf/src/tui"
-	"github.com/junegunn/fzf/src/util"
-
+	"github.com/sergei-dyshel/fzf-abbrev/src/algo"
+	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 	"github.com/mattn/go-runewidth"
 	"github.com/mattn/go-shellwords"
 )

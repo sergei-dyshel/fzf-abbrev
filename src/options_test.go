@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/junegunn/fzf/src/tui"
+	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
 )
 
 func TestDelimiterRegex(t *testing.T) {
