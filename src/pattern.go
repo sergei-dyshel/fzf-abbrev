@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/sergei-dyshel/fzf-abbrev/src/algo"
+	"github.com/sergei-dyshel/fzf-abbrev/src/algo/abbrev"
 	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
 
@@ -26,6 +27,7 @@ const (
 	termPrefix
 	termSuffix
 	termEqual
+	termAbbrev
 )
 
 type term struct {
@@ -85,7 +87,8 @@ func clearChunkCache() {
 
 // BuildPattern builds Pattern object from the given arguments
 func BuildPattern(fuzzy bool, fuzzyAlgo algo.Algo, extended bool, caseMode Case, normalize bool, forward bool,
-	cacheable bool, nth []Range, delimiter Delimiter, runes []rune) *Pattern {
+	cacheable bool, nth []Range, delimiter Delimiter, abbrevByDefault bool,
+	runes []rune) *Pattern {
 
 	var asString string
 	if extended {
@@ -154,7 +157,13 @@ func BuildPattern(fuzzy bool, fuzzyAlgo algo.Algo, extended bool, caseMode Case,
 		procFun:       make(map[termType]algo.Algo)}
 
 	ptr.cacheKey = ptr.buildCacheKey()
-	ptr.procFun[termFuzzy] = fuzzyAlgo
+	if abbrevByDefault {
+		ptr.procFun[termFuzzy] = fuzzyAlgo
+		ptr.procFun[termAbbrev] = abbrev.Match
+	} else {
+		ptr.procFun[termFuzzy] = abbrev.Match
+		ptr.procFun[termAbbrev] = fuzzyAlgo
+	}
 	ptr.procFun[termEqual] = algo.EqualMatch
 	ptr.procFun[termExact] = algo.ExactMatchNaive
 	ptr.procFun[termPrefix] = algo.PrefixMatch
@@ -172,7 +181,7 @@ func parseTerms(fuzzy bool, caseMode Case, normalize bool, str string) []termSet
 	switchSet := false
 	afterBar := false
 	for _, token := range tokens {
-		typ, inv, text := termFuzzy, false, strings.Replace(token, "\t", " ", -1)
+		typ, inv, text := termAbbrev, false, strings.Replace(token, "\t", " ", -1)
 		lowerText := strings.ToLower(text)
 		caseSensitive := caseMode == CaseRespect ||
 			caseMode == CaseSmart && text != lowerText
@@ -195,6 +204,11 @@ func parseTerms(fuzzy bool, caseMode Case, normalize bool, str string) []termSet
 		if strings.HasPrefix(text, "!") {
 			inv = true
 			typ = termExact
+			text = text[1:]
+		}
+
+		if text != "#" && strings.HasPrefix(text, "#") {
+			typ = termFuzzy
 			text = text[1:]
 		}
 
