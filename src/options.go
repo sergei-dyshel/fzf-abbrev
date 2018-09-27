@@ -9,6 +9,7 @@ import (
 	"unicode"
 
 	"github.com/sergei-dyshel/fzf-abbrev/src/algo"
+	"github.com/sergei-dyshel/fzf-abbrev/src/algo/abbrev"
 	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
 	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 	"github.com/mattn/go-runewidth"
@@ -1819,6 +1820,9 @@ func parseOptions(opts *Options, allArgs []string) {
 			opts.ClearOnExit = false
 		case "--version":
 			opts.Version = true
+		case "--abbrev":
+			abbrev.Opts.Parse(nextString(allArgs, &i,
+				"list of abbrev matcher arguments is required"))
 		case "--":
 			// Ignored
 		default:
