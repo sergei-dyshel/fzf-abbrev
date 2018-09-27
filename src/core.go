@@ -7,6 +7,7 @@ import (
 	"time"
 	"unsafe"
 
+	"github.com/sergei-dyshel/fzf-abbrev/src/algo/abbrev"
 	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
 
@@ -147,7 +148,7 @@ func Run(opts *Options, version string, revision string) {
 	patternBuilder := func(runes []rune) *Pattern {
 		return BuildPattern(
 			opts.Fuzzy, opts.FuzzyAlgo, opts.Extended, opts.Case, opts.Normalize, forward, withPos,
-			opts.Filter == nil, opts.Nth, opts.Delimiter, runes)
+			opts.Filter == nil, opts.Nth, opts.Delimiter, abbrev.Opts.UseByDefault, runes)
 	}
 	inputRevision := 0
 	snapshotRevision := 0

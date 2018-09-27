@@ -9,6 +9,7 @@ import (
 	"unicode"
 
 	"github.com/sergei-dyshel/fzf-abbrev/src/algo"
+	"github.com/sergei-dyshel/fzf-abbrev/src/algo/abbrev"
 	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
 	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 	"github.com/mattn/go-shellwords"
@@ -1981,6 +1982,9 @@ func parseOptions(opts *Options, allArgs []string) {
 			opts.WalkerSkip = filterNonEmpty(strings.Split(nextString(allArgs, &i, "directory names to ignore required"), ","))
 		case "--version":
 			opts.Version = true
+		case "--abbrev":
+			abbrev.Opts.Parse(nextString(allArgs, &i,
+				"list of abbrev matcher arguments is required"))
 		case "--profile-cpu":
 			opts.CPUProfile = nextString(allArgs, &i, "file path required: cpu")
 		case "--profile-mem":
