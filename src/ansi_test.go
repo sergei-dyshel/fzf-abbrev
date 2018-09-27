@@ -8,7 +8,7 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	"github.com/junegunn/fzf/src/tui"
+	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
 )
 
 // The following regular expression will include not all but most of the
