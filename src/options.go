@@ -11,11 +11,12 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/sergei-dyshel/fzf-abbrev/src/algo"
-	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
-	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 	"github.com/junegunn/go-shellwords"
 	"github.com/rivo/uniseg"
+	"github.com/sergei-dyshel/fzf-abbrev/src/algo"
+	"github.com/sergei-dyshel/fzf-abbrev/src/algo/abbrev"
+	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
 
 const Usage = `fzf is an interactive filter program for any kind of list.
@@ -3400,6 +3401,12 @@ func parseOptions(index *int, opts *Options, allArgs []string) error {
 				return errors.New("invalid duration for --bench: " + str)
 			}
 			opts.Bench = dur
+		case "--abbrev":
+			str, err := nextString("list of abbrev matcher arguments is required")
+			if err != nil {
+				return errors.New("invalid value for --bench: " + str)
+			}
+			abbrev.Opts.Parse(str)
 		case "--profile-cpu":
 			if opts.CPUProfile, err = nextString("file path required: cpu"); err != nil {
 				return err

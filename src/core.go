@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/sergei-dyshel/fzf-abbrev/src/algo/abbrev"
 	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
 	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
@@ -244,7 +245,7 @@ func Run(opts *Options) (int, error) {
 		denyMutex.Unlock()
 		return BuildPattern(cache, patternCache,
 			opts.Fuzzy, opts.FuzzyAlgo, opts.Extended, opts.Case, opts.Normalize, forward, withPos,
-			opts.Filter == nil, nth, opts.Delimiter, inputRevision, runes, denylistCopy, headerLines)
+			opts.Filter == nil, nth, opts.Delimiter, abbrev.Opts.UseByDefault, inputRevision, runes, denylistCopy, headerLines)
 	}
 	matcher := NewMatcher(cache, patternBuilder, sort, opts.Tac, eventBox, inputRevision, opts.Threads)
 
