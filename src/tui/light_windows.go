@@ -7,7 +7,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 	"golang.org/x/sys/windows"
 )
 
