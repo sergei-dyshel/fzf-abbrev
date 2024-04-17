@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/junegunn/fzf/src/util"
 	"github.com/rivo/uniseg"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
 
 type Attr int32

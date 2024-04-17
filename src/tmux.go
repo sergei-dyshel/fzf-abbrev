@@ -4,7 +4,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/junegunn/fzf/src/tui"
+	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
 )
 
 func runTmux(args []string, opts *Options) (int, error) {

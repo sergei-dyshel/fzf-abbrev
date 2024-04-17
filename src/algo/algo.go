@@ -85,7 +85,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
 
 var DEBUG bool

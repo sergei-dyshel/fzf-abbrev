@@ -1,5 +1,6 @@
 bin/fzf
 bin/fzf.exe
+fzf-abbrev
 dist
 target
 pkg

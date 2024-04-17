@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/junegunn/fzf/src/tui"
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
 
 /*

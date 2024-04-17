@@ -87,10 +87,10 @@ all: target/$(BINARY)
 
 test: $(SOURCES)
 	SHELL=/bin/sh GOOS= $(GO) test -v -tags "$(TAGS)" \
-				github.com/junegunn/fzf/src \
-				github.com/junegunn/fzf/src/algo \
-				github.com/junegunn/fzf/src/tui \
-				github.com/junegunn/fzf/src/util
+				github.com/sergei-dyshel/fzf-abbrev/src \
+				github.com/sergei-dyshel/fzf-abbrev/src/algo \
+				github.com/sergei-dyshel/fzf-abbrev/src/tui \
+				github.com/sergei-dyshel/fzf-abbrev/src/util
 
 itest:
 	ruby test/runner.rb

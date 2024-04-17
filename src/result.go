@@ -5,8 +5,8 @@ import (
 	"sort"
 	"unicode"
 
-	"github.com/junegunn/fzf/src/tui"
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf-abbrev/src/tui"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
 
 // Offset holds two 32-bit integers denoting the offsets of a matched substring
