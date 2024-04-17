@@ -8,7 +8,7 @@ import (
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/gdamore/tcell/v2/encoding"
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 
 	"github.com/rivo/uniseg"
 )

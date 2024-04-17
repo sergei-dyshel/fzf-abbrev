@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/charlievieth/fastwalk"
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
 
 // Reader reads from command or standard input

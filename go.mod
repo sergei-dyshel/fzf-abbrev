@@ -1,4 +1,4 @@
-module github.com/junegunn/fzf
+module github.com/sergei-dyshel/fzf-abbrev
 
 require (
 	github.com/charlievieth/fastwalk v1.0.3

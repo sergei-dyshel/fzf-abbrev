@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/junegunn/fzf/src/util"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
 
 // runInitProfileTests is an internal flag used TestInitProfiling

@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/junegunn/fzf/src/util"
 	"github.com/rivo/uniseg"
+	"github.com/sergei-dyshel/fzf-abbrev/src/util"
 )
 
 // Types of user action
